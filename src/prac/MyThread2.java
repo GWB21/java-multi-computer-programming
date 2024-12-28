@@ -1,4 +1,4 @@
-//class ThreadDemo {
+package prac;//class ThreadDemo {
 //    public static void main (String [] args) {
 //        MyThread mt = new MyThread();
 //        mt.start();
@@ -24,8 +24,8 @@
 //    }
 //}
 
-//class AutoRun implements Runnable {
-//    public AutoRun() {
+//class prac.AutoRun implements Runnable {
+//    public prac.AutoRun() {
 //        new Thread(this).start();
 //    }
 //    public void run() {
@@ -34,61 +34,35 @@
 //    //other methods and data for this class
 //}
 //
-//class Main {
+//class prac.Main {
 //    public static void main(String [] args) {
-//        AutoRun AutoRunt1 = new AutoRun();
+//        prac.AutoRun AutoRunt1 = new prac.AutoRun();
 //        System.out.println("InsideMAin()");
 //
 //    }
 //}
 
-//class AutoRun implements Runnable {
+//class prac.AutoRun implements Runnable {
 //    private Thread _me;
-//    public AutoRun() {
+//    public prac.AutoRun() {
 //        _me = new Thread(this);
 //        _me.start();
 //    }
 //
 //    public void run() {
 //        if(_me != Thread.currentThread()) {
-//            System.out.println("AutoRun.run()");
+//            System.out.println("prac.AutoRun.run()");
 //        }
 //    }
 //}
 //
-//class Main {
+//class prac.Main {
 //    public static void main(String[] args) {
-//        AutoRun t1 = new AutoRun();
+//        prac.AutoRun t1 = new prac.AutoRun();
 //        t1.run();
 //        System.out.println("InsideMain()");
 //    }
 //}
-
-class JoinThr {
-    public static void main(String s[]) {
-        MyThread1 Thread_a;
-        MyThread2 Thread_b;
-        Thread_a = new MyThread1();
-        Thread_b = new MyThread2(Thread_a);                 //joining!
-        System.out.println("Starting the threads...");
-        Thread_a.start();
-        Thread_b.start();
-    }
-}
-
-class MyThread1 extends Thread {
-    public void run() {
-        System.out.println(getName() + " is running...");   //스레드의 이름을 리턴하면서 지금 무슨 스레드가 돌아가고 있는지 알려주는것.
-        for (int i = 0; i < 4; i++) {                       //thread1이 하는건 500밀리초동안 쉬면서 4번 print하는것임. 자기가 "나 지금 돌아가고 있어요~~"라고 명시적으로 말해주면서
-            try {
-                sleep(500);
-            } catch (InterruptedException e) {
-                throw new RuntimeException(e);
-            }
-            System.out.println("Hello there, from " + getName());
-        }
-    }
-}
 
 class MyThread2 extends Thread {
     private final Thread wait4me;          //내가 어떤 private 스레드를 생성해요. => joining하는걸 생각해서 받아와서 자기한테 저장하려고 하는거지 뭐.
@@ -100,10 +74,10 @@ class MyThread2 extends Thread {
 
     @Override       // super로 가져온거 오버라이드 하는거죠?
     public void run() {
-        super.run(); //상속 받은 스레드부터 run 메소드 호출.
+        super.run(); //상속 받은 스레드의 run 메소드 실행 => Thread0 메소드 실행한다는것
         System.out.println(getName() + " is waiting for " + wait4me.getName() + "..."); //아 지금 그니까 상속받은 애 먼저 하고 있는거니까 내가 지금 얘 기다리고 있어요~ 라고 말하는거네.
         try {
-            wait4me.join();                                        //여기서 이제 join했어~
+            wait4me.join();                                        //여기서 이제 join했어~ 그럼 Thread 0 끝나기 전까지 기다림
         } catch (InterruptedException e) {                          //항상 join같이 interrupted Exception이 발생할 가능성이 있는 경우에는 자바에서 try catch를 강제하고 있음.
             throw new RuntimeException(e);
         }
